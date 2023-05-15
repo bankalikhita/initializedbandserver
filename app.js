@@ -32,10 +32,16 @@ initializedb();
 
 //allplayersfromtable API 1
 app.get("/players/", async (request, response) => {
-  const getallplayersquery = `select * from cricket_team ORDER BY player_id;`;
-  const allplayers = await db.all(getallplayersquery);
+  const getPlayersQuery = `
+ SELECT
+ *
+ FROM
+ cricket_team;`;
+  const playersArray = await database.all(getPlayersQuery);
   response.send(
-    allplayers.map((eachPlayer) => convertDbObjectToResponseObject(eachPlayer))
+    playersArray.map((eachPlayer) =>
+      convertDbObjectToResponseObject(eachPlayer)
+    )
   );
 });
 
