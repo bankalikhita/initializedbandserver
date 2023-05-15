@@ -6,6 +6,14 @@ const sqlite3 = require("sqlite3");
 const path = require("path");
 const dbpath = path.join(__dirname, "cricketTeam.db");
 let db = null;
+const convertDbObjectToResponseObject = (dbObject) => {
+  return {
+    playerId: dbObject.player_id,
+    playerName: dbObject.player_name,
+    jerseyNumber: dbObject.jersey_number,
+    Role: dbObject.role,
+  };
+};
 const initializedb = async () => {
   try {
     db = await open({
@@ -26,7 +34,9 @@ initializedb();
 app.get("/players/", async (request, response) => {
   const getallplayersquery = `select * from cricket_team ORDER BY player_id;`;
   const allplayers = await db.all(getallplayersquery);
-  response.send(allplayers);
+  response.send(
+    allplayers.map((eachPlayer) => convertDbObjectToResponseObject(eachPlayer))
+  );
 });
 
 //CREATE NEW PLAYER API 2
