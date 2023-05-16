@@ -62,7 +62,9 @@ app.get("/players/:playerId/", async (request, response) => {
   const playerdetails = request.body;
   const getoneplayerquery = `select * from cricket_team where player_id=${playerId};`;
   const singleplayer = await db.get(getoneplayerquery);
-  response.send(singleplayer);
+  response.send(singleplayer.map((eachPlayer) =>
+      convertDbObjectToResponseObject(eachPlayer)
+    ));
 });
 
 //update player details API 4
