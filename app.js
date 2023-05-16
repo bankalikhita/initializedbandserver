@@ -11,7 +11,7 @@ const convertDbObjectToResponseObject = (dbObject) => {
     playerId: dbObject.player_id,
     playerName: dbObject.player_name,
     jerseyNumber: dbObject.jersey_number,
-    Role: dbObject.role,
+    role: dbObject.role,
   };
 };
 const initializedb = async () => {
@@ -48,9 +48,9 @@ app.get("/players/", async (request, response) => {
 //CREATE NEW PLAYER API 2
 app.post("/players/", async (request, response) => {
   const playerdetails = request.body;
-  const { playerName, jerseyNumber, Role } = playerdetails;
+  const { playerName, jerseyNumber, role } = playerdetails;
   const addplayerquery = `INSERT INTO cricket_team (player_name,jersey_number,role) 
-    VALUES ('${playerName}',${jerseyNumber},'${Role}');`;
+    VALUES ('${playerName}',${jerseyNumber},'${role}');`;
   const dbresponse = await db.run(addplayerquery);
   const playerId = dbresponse.lastID;
   response.send("Player Added to Team");
@@ -71,9 +71,9 @@ app.get("/players/:playerId/", async (request, response) => {
 app.put("/players/:playerId/", async (request, response) => {
   const playerdetails = request.body;
   const { playerId } = request.params;
-  const { playerName, jerseyNumber, Role } = playerdetails;
+  const { playerName, jerseyNumber, role } = playerdetails;
   const updateplayerquery = `UPDATE cricket_team
-  SET player_name='${playerName}',jersey_number=${jerseyNumber},role='${Role}' where player_id=${playerId};`;
+  SET player_name='${playerName}',jersey_number=${jerseyNumber},role='${role}' where player_id=${playerId};`;
   await db.run(updateplayerquery);
   response.send("Player Details Updated");
 });
