@@ -59,7 +59,6 @@ app.post("/players/", async (request, response) => {
 //find play with playerid API 3
 app.get("/players/:playerId/", async (request, response) => {
   const { playerId } = request.params;
-  const playerdetails = request.body;
   const getoneplayerquery = `select * from cricket_team where player_id=${playerId};`;
   const singleplayer = await db.get(getoneplayerquery);
   response.send(singleplayer.map((eachPlayer) =>
